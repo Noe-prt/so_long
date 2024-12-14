@@ -21,6 +21,7 @@ typedef struct s_game
 	t_tuple	*window_size;
 	t_tuple	player_pos;
 	void	*player_img;
+	char	*map;
 }			t_game;
 
 t_tuple	*get_map_size(int	map_fd);
@@ -34,5 +35,7 @@ int exit_input(int keycode, void *param);
 t_tuple	*init_tuple();
 t_game  *init_game(char *map);
 void update_player_pos(t_game *game, void *mlx, void *win, char direction);
+char	get_tile_type(int fd, t_tuple pos);
+int	check_collision(t_game *game, char movement_type);
 
 #endif
