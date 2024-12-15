@@ -55,7 +55,10 @@ void	fill_window(int	map_fd, t_game *game)
 			else if (line[i] == 'P')
 				place_player(pos, game);
 			else if (line[i] == 'C')
-				place_sand(pos, game);
+			{
+				game->total_collectible++;
+				place_collectible(pos, game);
+			}
 			else if (line[i] == 'E')
 				place_sand(pos, game);
 			pos->x += 32;
@@ -101,6 +104,24 @@ void	place_water(t_tuple* pos, t_game *game)
     mlx_put_image_to_window(game->mlx, game->win, img, pos->x, pos->y);
 }
 
+void	place_collectible(t_tuple* pos, t_game *game)
+{
+	void	*img;
+	t_tuple	*size;
+	char	*path = "./collectible.xpm";
+
+	size = init_tuple();
+	size->x = 32;
+	size->y = 32;
+	img = mlx_xpm_file_to_image(game->mlx, path, &size->x, &size->y);
+	if (!img)
+	{	
+	    perror("Error loading image");
+    	return;
+	}
+    mlx_put_image_to_window(game->mlx, game->win, img, pos->x, pos->y);
+}
+
 void	place_player(t_tuple* pos, t_game *game)
 {
 	void	*img;
@@ -114,4 +135,11 @@ void	place_player(t_tuple* pos, t_game *game)
 	game->player_pos = *pos;
 	game->player_img = img;
     mlx_put_image_to_window(game->mlx, game->win, img, pos->x, pos->y);
+}
+
+int	check_win(t_game *game)
+{
+	if (game->collectible_count == game->total_collectible)
+		return (1);
+	return (0);
 }

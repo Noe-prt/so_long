@@ -42,6 +42,9 @@ t_game  *init_game(char *map)
     game->mlx = mlx_init();
     game->win = mlx_new_window(game->mlx, game->window_size->x, game->window_size->y, "Escape Island");
 	game->map = map;
+	game->steps_count = 0;
+	game->collectible_count = 0;
+	game->total_collectible = 0;
     map_fd = open(map, O_RDONLY);
 	if (map_fd == -1)
 		return (0);
@@ -66,22 +69,22 @@ int movements_inputs(int keycode, void *param)
     game = (t_game *)param;
     if (keycode == 65362)
 	{
-		if (!check_collision(param, 'F'))
+		if (!check_collision(param, 0, -32))
         	update_player_pos(game, &game->mlx,  &game->win, 'F');
 	}
     else if (keycode == 65364)
 	{
-		if (!check_collision(param, 'B'))
+		if (!check_collision(param, 0, 32))
         	update_player_pos(game, &game->mlx,  &game->win, 'B');
 	}
     else if (keycode == 65363)
 	{
-		if (!check_collision(param, 'R'))
+		if (!check_collision(param, 32, 0))
         	update_player_pos(game, &game->mlx,  &game->win, 'R');
 	}
     else if (keycode == 65361)
 	{
-		if (!check_collision(param, 'L'))
+		if (!check_collision(param, -32, 0))
         	update_player_pos(game, &game->mlx,  &game->win, 'L');
 	}
     return (0);
@@ -133,63 +136,50 @@ char	get_tile_type(int fd, t_tuple pos)
 	return ('\0');
 }
 
-int	check_collision(t_game *game, char movement_type)
+int	check_collision(t_game *game, int x, int y)
 {
 	t_tuple	next_pos;
 	int	fd;
-
-	if (movement_type == 'F')
+	
+	fd = open(game->map, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	next_pos.x = game->player_pos.x + x;
+	next_pos.y = game->player_pos.y + y;
+	if (get_tile_type(fd, next_pos) == '1')
 	{
-		fd = open(game->map, O_RDONLY);
-		if (fd == -1)
-			return (0);
-		next_pos.x = game->player_pos.x;
-		next_pos.y = game->player_pos.y - 32;
-		if (get_tile_type(fd, next_pos) == '1')
-		{
-			close(fd);
-			return (1);
-		}
+		close(fd);
+		return (1);
 	}
-	else if (movement_type == 'B')
+	close(fd);
+	fd = open(game->map, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	else if (get_tile_type(fd, next_pos) == 'C' && !is_already_collected(game, next_pos))
 	{
-		fd = open(game->map, O_RDONLY);
-		if (fd == -1)
-			return (0);
-		next_pos.x = game->player_pos.x;
-		next_pos.y = game->player_pos.y + 32;
-		if (get_tile_type(fd, next_pos) == '1')
+		game->saved_col_pos[game->collectible_count] = next_pos;
+		game->collectible_count++;
+		if (check_win(game))
 		{
+			printf("GG WP !\n");
 			close(fd);
-			return (1);
-		}
-	}
-	else if (movement_type == 'R')
-	{
-		fd = open(game->map, O_RDONLY);
-		if (fd == -1)
-			return (0);
-		next_pos.x = game->player_pos.x + 32;
-		next_pos.y = game->player_pos.y;
-		if (get_tile_type(fd, next_pos) == '1')
-		{
-			close(fd);
-			return (1);
-		}
-	}
-	else if (movement_type == 'L')
-	{
-		fd = open(game->map, O_RDONLY);
-		if (fd == -1)
-			return (0);
-		next_pos.x = game->player_pos.x - 32;
-		next_pos.y = game->player_pos.y;
-		if (get_tile_type(fd, next_pos) == '1')
-		{
-			close(fd);
-			return (1);
+			exit(0);
 		}
 	}
 	close(fd);
+	return (0);
+}
+
+int	is_already_collected(t_game *game, t_tuple pos)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->collectible_count)
+	{
+		if (pos.x == game->saved_col_pos[i].x && pos.y == game->saved_col_pos[i].y)
+			return (1);
+		i++;
+	}
 	return (0);
 }
