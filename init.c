@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:46 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/20 08:50:47 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/21 11:35:35 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ void	draw_window(t_game *game)
 {
     int i;
     int j;
-	t_tuple	size;
 
-	size.x = TILE_SIZE;
-	size.y = TILE_SIZE;
+    j = 0;
     while (game->map[j])
     {
 		i = 0;
@@ -120,17 +118,19 @@ char    **parse_map(char *map_file)
         new_map[i] = malloc(sizeof(char) * (ft_strlen(old_map) + 1));
         if (!new_map[i])
         {
-            while (i > 0)
-                free(new_map[--i]);
             free(new_map);
             free(old_map);
+            close(map_fd);
             return (NULL);
         }
         ft_strcpy(new_map[i], old_map);
         free(old_map);
         i++;
     }
+    if (old_map)
+        free(old_map);
     new_map[i] = NULL;
+    close(map_fd);
     return (new_map);
 }
 

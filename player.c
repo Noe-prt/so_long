@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:28:52 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/20 08:44:20 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:15:40 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void    move_up(t_game *game)
 		if (game->is_open_exit)
 		{
 			printf("GG WP!");
+			close_game(game);
 			exit(0);
 		}
 		else
@@ -58,6 +59,7 @@ void    move_down(t_game *game)
 		if (game->is_open_exit)
 		{
 			ft_printf("GG WP!");
+			close_game(game);
 			exit(0);
 		}
 		else
@@ -86,6 +88,7 @@ void    move_right(t_game *game)
 		if (game->is_open_exit)
 		{
 			printf("GG WP!");
+			close_game(game);
 			exit(0);
 		}
 		else
@@ -114,6 +117,7 @@ void    move_left(t_game *game)
 		if (game->is_open_exit)
 		{
 			printf("GG WP!");
+			close_game(game);
 			exit(0);
 		}
 		else
