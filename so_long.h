@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:50 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/20 18:30:04 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:55:03 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ void    move_right(t_game *game);
 void	move_left(t_game *game);
 t_tuple get_player_pos(t_game *game);
 int	get_total_collectible(char **map);
-void	close_game(t_game *game);
+int	close_game(t_game *game);
+int	check_map_requirements(char *map_file);
+int	check_map_rectangular(char *map_file);
 void	free_map(char **map);
 
 

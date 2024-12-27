@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:46 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/21 11:35:35 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:18:47 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ char    **parse_map(char *map_file)
 
     map_fd = open(map_file, O_RDONLY);
     if (map_fd == -1)
+    {
+        ft_printf("Error\nMap file is invalid !\n");
         exit(-1);
+    }
     i = 0;
     line_count = 0;
     while ((old_map = get_next_line(map_fd)))
@@ -107,8 +110,6 @@ char    **parse_map(char *map_file)
         return (NULL);
     close(map_fd);
     map_fd = open(map_file, O_RDONLY);
-    if (map_fd == -1)
-        exit(-1);
     while ((old_map = get_next_line(map_fd)))
     {
         line_len = ft_strlen(old_map);

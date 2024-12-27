@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:52 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/20 08:34:59 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:16:55 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@ int main(int argc, char **argv)
     {
         return (0);
     }
+    if (!check_map_requirements(argv[1]))
+    {
+        ft_printf("Error\nMap need [1 PLAYER] [1 EXIT] [1 ITEM OR MORE] !\n");
+        return (-1);
+    }
+    if (!check_map_rectangular(argv[1]))
+    {
+        ft_printf("Error\nMap must be rectangular and surrounded by walls !\n");
+        return (-1);
+    }
     game = init_game(argv[1]);
     mlx_hook(game->win, 2, 1L << 0, handle_inputs, game);
+    mlx_hook(game->win, 17, 0, close_game, game);
     mlx_loop(game->mlx);
 }
