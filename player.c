@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:28:52 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/24 11:58:12 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:08:26 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	move_up(t_game *game)
 {
 	t_tuple	player_pos;
 
-	player_pos = get_player_pos(game);
+	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
 		return ;
 	if (game->map[player_pos.y / 32 - 1][player_pos.x / 32] == '1')
@@ -37,6 +37,7 @@ void	move_up(t_game *game)
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[(player_pos.y / 32) - 1][(player_pos.x / 32)] = 'P';
+	game->movements_count++;
 	draw_window(game);
 }
 
@@ -44,7 +45,7 @@ void	move_down(t_game *game)
 {
 	t_tuple	player_pos;
 
-	player_pos = get_player_pos(game);
+	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
 		return ;
 	if (game->map[player_pos.y / 32 + 1][player_pos.x / 32] == '1')
@@ -65,6 +66,7 @@ void	move_down(t_game *game)
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[(player_pos.y / 32) + 1][(player_pos.x / 32)] = 'P';
+	game->movements_count++;
 	draw_window(game);
 }
 
@@ -72,7 +74,7 @@ void	move_right(t_game *game)
 {
 	t_tuple	player_pos;
 
-	player_pos = get_player_pos(game);
+	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
 		return ;
 	if (game->map[player_pos.y / 32][player_pos.x / 32 + 1] == '1')
@@ -93,6 +95,7 @@ void	move_right(t_game *game)
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[player_pos.y / 32][(player_pos.x / 32) + 1] = 'P';
+	game->movements_count++;
 	draw_window(game);
 }
 
@@ -100,7 +103,7 @@ void	move_left(t_game *game)
 {
 	t_tuple	player_pos;
 
-	player_pos = get_player_pos(game);
+	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
 		return ;
 	if (game->map[player_pos.y / 32][player_pos.x / 32 - 1] == '1')
@@ -113,7 +116,7 @@ void	move_left(t_game *game)
 	{
 		if (game->is_open_exit)
 		{
-			printf("GG WP!");
+			printf("GG WP!\n");
 			close_game(game);
 			exit(0);
 		}
@@ -122,22 +125,23 @@ void	move_left(t_game *game)
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[player_pos.y / 32][(player_pos.x / 32) - 1] = 'P';
+	game->movements_count++;
 	draw_window(game);
 }
 
-t_tuple	get_player_pos(t_game *game)
+t_tuple	get_player_pos(char **map)
 {
 	int		i;
 	int		j;
 	t_tuple	player_pos;
 
 	j = 0;
-	while (game->map[j])
+	while (map[j])
 	{
 		i = 0;
-		while (game->map[j][i])
+		while (map[j][i])
 		{
-			if (game->map[j][i] == 'P')
+			if (map[j][i] == 'P')
 			{
 				player_pos.x = i * 32;
 				player_pos.y = j * 32;

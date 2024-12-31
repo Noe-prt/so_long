@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:50 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/27 22:55:03 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:24:22 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_game
 	int	collectible_count;
 	int	total_collectible;
 	int	is_open_exit;
+	int	movements_count;
 	t_tuple	window_size;
 }				t_game;
 
@@ -60,12 +61,13 @@ void    move_up(t_game *game);
 void    move_down(t_game *game);
 void    move_right(t_game *game);
 void	move_left(t_game *game);
-t_tuple get_player_pos(t_game *game);
+t_tuple get_player_pos(char **map);
 int	get_total_collectible(char **map);
 int	close_game(t_game *game);
 int	check_map_requirements(char *map_file);
 int	check_map_rectangular(char *map_file);
 void	free_map(char **map);
+int	check_valid_path(char *map_file);
 
 
 #endif

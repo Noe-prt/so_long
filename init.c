@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:46 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/27 23:18:47 by nopareti         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:11:06 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_game  *init_game(char *map_file)
     game->collectible_count = 0;
     game->total_collectible = get_total_collectible(game->map);
     game->is_open_exit = 0;
+    game->movements_count = 0;
     draw_window(game);
     return (game);
 }
@@ -50,19 +51,20 @@ void	draw_window(t_game *game)
         while (game->map[j][i])
         {
             if (game->map[j][i] == '1')
-                mlx_put_image_to_window(game->mlx, game->win, game->wall_img, i * 32, j * 32);
+                mlx_put_image_to_window(game->mlx, game->win, game->wall_img, i * TILE_SIZE, j * TILE_SIZE);
 			else if (game->map[j][i] == '0')
-				mlx_put_image_to_window(game->mlx, game->win, game->floor_img, i * 32, j * 32);
+				mlx_put_image_to_window(game->mlx, game->win, game->floor_img, i * TILE_SIZE, j * TILE_SIZE);
 			else if (game->map[j][i] == 'P')
-				mlx_put_image_to_window(game->mlx, game->win, game->player_img, i * 32, j * 32);
+				mlx_put_image_to_window(game->mlx, game->win, game->player_img, i * TILE_SIZE, j * TILE_SIZE);
 			else if (game->map[j][i] == 'C')
-				mlx_put_image_to_window(game->mlx, game->win, game->collectible_img, i * 32, j * 32);
+				mlx_put_image_to_window(game->mlx, game->win, game->collectible_img, i * TILE_SIZE, j * TILE_SIZE);
 			else if (game->map[j][i] == 'E')
-				mlx_put_image_to_window(game->mlx, game->win, game->exit_img, i * 32, j * 32);
+				mlx_put_image_to_window(game->mlx, game->win, game->exit_img, i * TILE_SIZE, j * TILE_SIZE);
 			i++;
         }
 		j++;
     }
+    ft_printf("Mouvements : %d\n", game->movements_count);
 }
 
 t_tuple	get_window_size(char **map)
