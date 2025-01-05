@@ -6,15 +6,15 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 05:54:52 by nopareti          #+#    #+#             */
-/*   Updated: 2024/12/31 12:06:49 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/04 12:20:04 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int main(int argc, char **argv)
 {
-    t_game  *game;
+    t_game *game;
 
     if (argc != 2)
     {

@@ -1,8 +1,9 @@
 CC = gcc
-CFLAGS = -I/usr/include -Imlx_linux -Ift_printf -O3 -Wall -Wextra -Werror
+CFLAGS = -I/usr/include -Imlx_linux -Ift_printf -Iinclude -O3 -Wall -Wextra -Werror -g
 LDFLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz -Lft_printf -lftprintf
 NAME = so_long
-SRC = main.c init.c game.c player.c check_map.c utils.c get_next_line/get_next_line_utils.c get_next_line/get_next_line.c
+SRC = src/main.c src/init.c src/game.c src/player.c src/check_map.c src/utils.c src/parsing.c \
+      get_next_line/get_next_line_utils.c get_next_line/get_next_line.c
 OBJ = $(SRC:.c=.o)
 
 # Cible par défaut
