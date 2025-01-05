@@ -12,9 +12,9 @@
 
 #include "../include/so_long.h"
 
-void free_map(char **map)
+void	free_map(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (map[i])
@@ -25,7 +25,7 @@ void free_map(char **map)
 	free(map);
 }
 
-int close_game(t_game *game)
+int	close_game(t_game *game)
 {
 	if (game->player_img)
 		mlx_destroy_image(game->mlx, game->player_img);

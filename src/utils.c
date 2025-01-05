@@ -12,9 +12,9 @@
 
 #include "../include/so_long.h"
 
-char *ft_strcpy(char *s1, char *s2)
+char	*ft_strcpy(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s2[i])
@@ -26,9 +26,9 @@ char *ft_strcpy(char *s1, char *s2)
 	return (s1);
 }
 
-int handle_inputs(int keycode, void *param)
+int	handle_inputs(int keycode, void *param)
 {
-	t_game *game;
+	t_game	*game;
 
 	game = (t_game *)param;
 	if (keycode == 65362)
@@ -44,11 +44,11 @@ int handle_inputs(int keycode, void *param)
 	return (0);
 }
 
-int get_total_collectible(char **map)
+int	get_total_collectible(char **map)
 {
-	int i;
-	int j;
-	int count;
+	int	i;
+	int	j;
+	int	count;
 
 	j = 0;
 	count = 0;

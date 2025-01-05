@@ -6,21 +6,21 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:28:52 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/05 13:13:53 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/05 13:30:55 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void move_up(t_game *game)
+void	move_up(t_game *game)
 {
-	t_tuple player_pos;
+	t_tuple	player_pos;
 
 	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
-		return;
+		return ;
 	if (game->map[player_pos.y / 32 - 1][player_pos.x / 32] == '1')
-		return;
+		return ;
 	if (game->map[player_pos.y / 32 - 1][player_pos.x / 32] == 'C')
 		game->collectible_count++;
 	if (game->collectible_count == game->total_collectible)
@@ -33,7 +33,7 @@ void move_up(t_game *game)
 			close_game(game);
 		}
 		else
-			return;
+			return ;
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[(player_pos.y / 32) - 1][(player_pos.x / 32)] = 'P';
@@ -41,15 +41,15 @@ void move_up(t_game *game)
 	draw_window(game);
 }
 
-void move_down(t_game *game)
+void	move_down(t_game *game)
 {
-	t_tuple player_pos;
+	t_tuple	player_pos;
 
 	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
-		return;
+		return ;
 	if (game->map[player_pos.y / 32 + 1][player_pos.x / 32] == '1')
-		return;
+		return ;
 	if (game->map[player_pos.y / 32 + 1][player_pos.x / 32] == 'C')
 		game->collectible_count++;
 	if (game->collectible_count == game->total_collectible)
@@ -62,7 +62,7 @@ void move_down(t_game *game)
 			close_game(game);
 		}
 		else
-			return;
+			return ;
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[(player_pos.y / 32) + 1][(player_pos.x / 32)] = 'P';
@@ -70,15 +70,15 @@ void move_down(t_game *game)
 	draw_window(game);
 }
 
-void move_right(t_game *game)
+void	move_right(t_game *game)
 {
-	t_tuple player_pos;
+	t_tuple	player_pos;
 
 	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
-		return;
+		return ;
 	if (game->map[player_pos.y / 32][player_pos.x / 32 + 1] == '1')
-		return;
+		return ;
 	if (game->map[player_pos.y / 32][player_pos.x / 32 + 1] == 'C')
 		game->collectible_count++;
 	if (game->collectible_count == game->total_collectible)
@@ -91,7 +91,7 @@ void move_right(t_game *game)
 			close_game(game);
 		}
 		else
-			return;
+			return ;
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[player_pos.y / 32][(player_pos.x / 32) + 1] = 'P';
@@ -99,15 +99,15 @@ void move_right(t_game *game)
 	draw_window(game);
 }
 
-void move_left(t_game *game)
+void	move_left(t_game *game)
 {
-	t_tuple player_pos;
+	t_tuple	player_pos;
 
 	player_pos = get_player_pos(game->map);
 	if (player_pos.x == -1)
-		return;
+		return ;
 	if (game->map[player_pos.y / 32][player_pos.x / 32 - 1] == '1')
-		return;
+		return ;
 	if (game->map[player_pos.y / 32][player_pos.x / 32 - 1] == 'C')
 		game->collectible_count++;
 	if (game->collectible_count == game->total_collectible)
@@ -120,7 +120,7 @@ void move_left(t_game *game)
 			close_game(game);
 		}
 		else
-			return;
+			return ;
 	}
 	game->map[player_pos.y / 32][player_pos.x / 32] = '0';
 	game->map[player_pos.y / 32][(player_pos.x / 32) - 1] = 'P';
@@ -128,11 +128,11 @@ void move_left(t_game *game)
 	draw_window(game);
 }
 
-t_tuple get_player_pos(char **map)
+t_tuple	get_player_pos(char **map)
 {
-	int i;
-	int j;
-	t_tuple player_pos;
+	int		i;
+	int		j;
+	t_tuple	player_pos;
 
 	j = 0;
 	while (map[j])

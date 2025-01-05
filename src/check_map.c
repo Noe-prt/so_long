@@ -6,33 +6,45 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:39:16 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/05 13:23:33 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:07:59 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static void dfs(char **map, int x, int y, int *collectibles, int *exit_found)
+static void	dfs(char **map, t_tuple pos, int *collectibles, int *exit_found)
 {
-	if (map[y][x] == '1' || map[y][x] == 'V')
-		return;
-	if (map[y][x] == 'C')
+	t_tuple	local_pos;
+
+	local_pos.x = 0;
+	local_pos.y = 0;
+	if (map[pos.y][pos.x] == '1' || map[pos.y][pos.x] == 'V')
+		return ;
+	if (map[pos.y][pos.x] == 'C')
 		(*collectibles)--;
-	if (map[y][x] == 'E')
+	if (map[pos.y][pos.x] == 'E')
 		*exit_found = 1;
-	map[y][x] = 'V';
-	dfs(map, x + 1, y, collectibles, exit_found);
-	dfs(map, x - 1, y, collectibles, exit_found);
-	dfs(map, x, y + 1, collectibles, exit_found);
-	dfs(map, x, y - 1, collectibles, exit_found);
+	map[pos.y][pos.x] = 'V';
+	local_pos.x = pos.x + 1;
+	local_pos.y = pos.y;
+	dfs(map, local_pos, collectibles, exit_found);
+	local_pos.x = pos.x - 1;
+	local_pos.y = pos.y;
+	dfs(map, local_pos, collectibles, exit_found);
+	local_pos.x = pos.x;
+	local_pos.y = pos.y + 1;
+	dfs(map, local_pos, collectibles, exit_found);
+	local_pos.x = pos.x;
+	local_pos.y = pos.y - 1;
+	dfs(map, local_pos, collectibles, exit_found);
 }
 
-int check_valid_path(char *map_file)
+int	check_valid_path(char *map_file)
 {
-	char **map;
-	t_tuple player_pos;
-	int collectibles;
-	int exit_found;
+	int		collectibles;
+	int		exit_found;
+	t_tuple	player_pos;
+	char	**map;
 
 	map = parse_map(map_file);
 	if (!map)
@@ -44,7 +56,7 @@ int check_valid_path(char *map_file)
 		return (0);
 	collectibles = get_total_collectible(map);
 	exit_found = 0;
-	dfs(map, player_pos.x, player_pos.y, &collectibles, &exit_found);
+	dfs(map, player_pos, &collectibles, &exit_found);
 	if (collectibles > 0 || !exit_found)
 	{
 		free_map(map);
@@ -54,7 +66,8 @@ int check_valid_path(char *map_file)
 	return (1);
 }
 
-void	increment_map_requirements(char **map, int *player_count, int *exit_count, int *item_count)
+void	increment_map_requirements(char **map, int *player_count,
+		int *exit_count, int *item_count)
 {
 	int	i;
 	int	j;
@@ -77,12 +90,12 @@ void	increment_map_requirements(char **map, int *player_count, int *exit_count, 
 	}
 }
 
-int check_map_requirements(char *map_file)
+int	check_map_requirements(char *map_file)
 {
-	int exit_count;
-	int player_count;
-	int item_count;
-	char **map;
+	int		exit_count;
+	int		player_count;
+	int		item_count;
+	char	**map;
 
 	exit_count = 0;
 	player_count = 0;
@@ -98,12 +111,12 @@ int check_map_requirements(char *map_file)
 	return (1);
 }
 
-int check_map_rectangular(char *map_file)
+int	check_map_rectangular(char *map_file)
 {
 	char	**map;
-	int	line_size;
-	int	i;
-	int	j;
+	int		line_size;
+	int		i;
+	int		j;
 
 	map = parse_map(map_file);
 	line_size = ft_strlen(map[0]);
