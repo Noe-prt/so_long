@@ -6,38 +6,11 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:39:16 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/05 15:07:59 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/05 18:09:30 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-static void	dfs(char **map, t_tuple pos, int *collectibles, int *exit_found)
-{
-	t_tuple	local_pos;
-
-	local_pos.x = 0;
-	local_pos.y = 0;
-	if (map[pos.y][pos.x] == '1' || map[pos.y][pos.x] == 'V')
-		return ;
-	if (map[pos.y][pos.x] == 'C')
-		(*collectibles)--;
-	if (map[pos.y][pos.x] == 'E')
-		*exit_found = 1;
-	map[pos.y][pos.x] = 'V';
-	local_pos.x = pos.x + 1;
-	local_pos.y = pos.y;
-	dfs(map, local_pos, collectibles, exit_found);
-	local_pos.x = pos.x - 1;
-	local_pos.y = pos.y;
-	dfs(map, local_pos, collectibles, exit_found);
-	local_pos.x = pos.x;
-	local_pos.y = pos.y + 1;
-	dfs(map, local_pos, collectibles, exit_found);
-	local_pos.x = pos.x;
-	local_pos.y = pos.y - 1;
-	dfs(map, local_pos, collectibles, exit_found);
-}
 
 int	check_valid_path(char *map_file)
 {
@@ -135,6 +108,32 @@ int	check_map_rectangular(char *map_file)
 		}
 		j++;
 	}
+	free_map(map);
+	return (1);
+}
+
+int	check_map_surrounded_by_walls(char *map_file)
+{
+	char	**map;
+	int		rows;
+	int		cols;
+	int		i;
+
+	map = parse_map(map_file);
+	rows = 0;
+	while (map[rows])
+		rows++;
+	cols = 0;
+	while (map[0][cols])
+		cols++;
+	i = -1;
+	while (++i < cols)
+		if (map[0][i] != '1' || map[rows - 1][i] != '1')
+			return (free_map(map), 0);
+	i = -1;
+	while (++i < rows)
+		if (map[i][0] != '1' || map[i][cols - 1] != '1')
+			return (free_map(map), 0);
 	free_map(map);
 	return (1);
 }
