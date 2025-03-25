@@ -30,7 +30,7 @@ Votre mission est d'implémenter les mécaniques suivantes :
 Cloner le dépôt :
 
 ```bash
-git clone https://github.com/votre_nom/so_long.git
+git clone https://github.com/Noe-prt/so_long.git
 cd so_long
 ```
 
