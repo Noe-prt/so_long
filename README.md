@@ -76,7 +76,7 @@ Exemple :
 - Validation du format de la carte avant l'exécution.
 - Optimisation du rendu graphique en ne redessinant que les éléments nécessaires.
 - Utilisation efficace des **hooks** de la **MiniLibX** pour gérer les entrées.
-- 
+  
 ## 👤 Auteur
 
 Projet réalisé par :
